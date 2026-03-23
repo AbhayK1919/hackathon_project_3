@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar - Smart Student Organizer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/static/genz-theme.css">
+  <link rel="stylesheet" href="/static/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="/static/theme.js" defer></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/dashboard">📚 Smart Organizer</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/dashboard">Dashboard</a>
+                <a class="nav-link" href="/files">Files</a>
+                <a class="nav-link" href="/syllabus">Syllabus</a>
+                <a class="nav-link" href="/notes">Notes</a>
+                <a class="nav-link" href="/chat">AI Chat</a>
+                <a class="nav-link active" href="/calendar">Calendar</a>
+                <a class="nav-link" href="/profile">Profile</a>
+                <a class="nav-link" href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2><i class="fas fa-calendar-alt"></i> Study Calendar <small class="text-muted">({{ username }})</small></h2>
+        
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h5>Upcoming Deadlines</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">
+                            DBMS Assignment
+                            <span class="badge bg-danger">Tomorrow</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            OS Quiz
+                            <span class="badge bg-warning">3 days</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            CN Midterm
+                            <span class="badge bg-primary">1 week</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h5>Add Reminder</h5>
+                    </div>
+                    <div class="card-body">
+                        <input type="text" class="form-control mb-2" placeholder="Event name">
+                        <input type="date" class="form-control mb-2">
+                        <button class="btn btn-success w-100">Add Reminder</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5>Weekly Schedule</h5>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>DBMS 10-12</td>
+                            <td>OS 9-11</td>
+                            <td>CN Lab</td>
+                            <td>DBMS 10-12</td>
+                            <td>Project Work</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

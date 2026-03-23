@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat - Smart Student Organizer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/genz-theme.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="/static/theme.js" defer></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/dashboard">📚 Smart Organizer</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/dashboard">Dashboard</a>
+                <a class="nav-link" href="/files">Files</a>
+                <a class="nav-link" href="/syllabus">Syllabus</a>
+                <a class="nav-link" href="/notes">Notes</a>
+                <a class="nav-link active" href="/chat">AI Chat</a>
+                <a class="nav-link" href="/calendar">Calendar</a>
+                <a class="nav-link" href="/profile">Profile</a>
+                <a class="nav-link" href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2><i class="fas fa-robot"></i> AI Study Assistant <small class="text-muted">({{ username }})</small></h2>
+        <div class="alert alert-info">
+            <strong>🤖 Real AI Powered by Groq (Llama3)!</strong> Ask study questions. <strong>Status:</strong> <span id="ai-status">Ready</span>
+        </div>
+        
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h5>🤖 Ask me anything about your studies!</h5>
+                <small>DBMS, OS, CN concepts explained • Syllabus doubts • Exam prep. Powered by Groq AI.</small>
+            </div>
+            <div class="card-body p-0">
+                <div id="chat-messages" style="height: 400px; overflow-y: auto; padding: 20px; background: #f8f9fa;">
+                    <div class="message bot-message mb-3">
+                        <strong>🤖 AI Bot:</strong> Hi {{ username }}! I am your AI study assistant powered by Groq Llama3. Ask me about DBMS normalization, OS scheduling, CN TCP, or your syllabus! Type to start. 
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="input-group">
+                        <input type="text" id="chat-input" class="form-control" placeholder="Type your question... (e.g., Explain normalization in DBMS)">
+                        <button class="btn btn-success" onclick="sendMessage()">
+                            <i class="fas fa-paper-plane"></i> Send
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let chatHistory = JSON.parse(localStorage.getItem('chatHistory') || '[]');
+
+        function loadHistory() {
+            const messages = document.getElementById('chat-messages');
+            messages.innerHTML = '<div class="message bot-message mb-3"><strong>🤖 AI Bot:</strong> Hi {{ username }}! I am your AI study assistant powered by Groq Llama3. Ask me about DBMS normalization, OS scheduling, CN TCP, or your syllabus! Type to start. </div>';
+            chatHistory.slice(-20).forEach(function(msg) {
+                if (msg.role === 'user') {
+                    messages.innerHTML += '<div class="message user-message mb-3"><strong>You:</strong> ' + msg.content + '</div>';
+                } else {
+                    messages.innerHTML += '<div class="message bot-message mb-3"><strong>🤖 AI:</strong> ' + msg.content + '</div>';
+                }
+            });
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const messages = document.getElementById('chat-messages');
+            const status = document.getElementById('ai-status');
+            const userMsg = input.value.trim();
+            if (!userMsg) return;
+
+            messages.innerHTML += '<div class="message user-message mb-3"><strong>You:</strong> ' + userMsg + '</div>';
+            input.value = '';
+            status.textContent = 'AI thinking...';
+            messages.scrollTop = messages.scrollHeight;
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({messages: chatHistory})
+                });
+                
+                if (!response.ok) {
+                    throw new Error('API error: ' + response.status);
+                }
+                
+                const data = await response.json();
+                const aiReply = data.reply || 'No response from AI.';
+
+                messages.innerHTML += '<div class="message bot-message mb-3"><strong>🤖 AI:</strong> ' + aiReply + '</div>';
+
+                chatHistory.push({role: 'user', content: userMsg});
+                chatHistory.push({role: 'assistant', content: aiReply});
+                localStorage.setItem('chatHistory', JSON.stringify(chatHistory.slice(-50)));
+                
+                status.textContent = 'Ready';
+                messages.scrollTop = messages.scrollHeight;
+            } catch (error) {
+                messages.innerHTML += '<div class="message bot-message mb-3" style="background: #fee;"><strong>🤖 Error:</strong> ' + error.message + '. Check API keys in .env. Fallback: Try "normalization" for demo.</div>';
+                status.textContent = 'Error - Check console';
+                console.error('Chat error:', error);
+            }
+        }
+
+        document.getElementById('chat-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        loadHistory();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .message { padding: 10px; border-radius: 10px; margin-bottom: 10px; }
+        .user-message { background: #007bff; color: white; margin-left: 20%; text-align: right; }
+        .bot-message { background: #e9ecef; color: #333; margin-right: 20%; }
+    </style>
+</body>
+</html>

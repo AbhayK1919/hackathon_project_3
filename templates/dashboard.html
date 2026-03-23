@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Smart Student Portal</title>
+<link rel="stylesheet" href="/static/genz-theme.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="/static/theme.js" defer></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Smart Student Portal</span>
+        </div>
+        <div class="nav-user">
+            <span>Welcome, {{ username }}! 👋</span>
+            <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </nav>
+
+    <div class="portal-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <ul class="nav-list">
+                <li><a href="/dashboard" class="nav-item active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="/files" class="nav-item"><i class="fas fa-folder-open"></i> File Organizer</a></li>
+                <li><a href="/syllabus" class="nav-item"><i class="fas fa-book"></i> Syllabus Tracker</a></li>
+                <li><a href="/notes" class="nav-item"><i class="fas fa-edit"></i> Notes Hub</a></li>
+                <li><a href="/chat" class="nav-item"><i class="fas fa-comments"></i> AI Chat</a></li>
+                <li><a href="/code" class="nav-item"><i class="fas fa-laptop-code"></i> 💻 Code</a></li>
+                <li><a href="/files" class="nav-item"><i class="fas fa-camera"></i> 📸 Photo</a></li>
+                <li><a href="/calendar" class="nav-item"><i class="fas fa-calendar-alt"></i> Calendar</a></li>
+                <li><a href="/profile" class="nav-item"><i class="fas fa-user"></i> Profile</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <h1><i class="fas fa-tachometer-alt"></i> Dashboard Overview</h1>
+                <p>Your academic hub - everything organized in one place</p>
+            </header>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card blue">
+                    <i class="fas fa-folder-open"></i>
+                    <div>
+                        <h3>{{ stats.total_files }}</h3>
+                        <p>Total Files</p>
+                    </div>
+                </div>
+                <div class="stat-card green">
+                    <i class="fas fa-chart-line"></i>
+                    <div>
+                        <h3>{{ stats.progress }}%</h3>
+                        <p>Progress</p>
+                    </div>
+                </div>
+                <div class="stat-card purple">
+                    <i class="fas fa-book"></i>
+                    <div>
+                        <h3>{{ stats.subjects|length }}</h3>
+                        <p>Subjects</p>
+                    </div>
+                </div>
+                <div class="stat-card orange">
+                    <i class="fas fa-bell"></i>
+                    <div>
+                        <h3>{{ stats.reminders }}</h3>
+                        <p>Reminders</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions">
+                <h2>Quick Actions</h2>
+                <div class="action-grid">
+                    <a href="/files" class="action-card">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h3>Upload Files</h3>
+                        <p>AI auto-organizes your notes</p>
+                    </a>
+                    <a href="/syllabus" class="action-card">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Track Syllabus</h3>
+                        <p>Unit-wise progress tracking</p>
+                    </a>
+                    <a href="/notes" class="action-card">
+                        <i class="fas fa-pen-fancy"></i>
+                        <h3>Create Notes</h3>
+                        <p>Rich text editor + save</p>
+                    </a>
+                    <a href="/chat" class="action-card">
+                        <i class="fas fa-robot"></i>
+                        <h3>AI Assistant</h3>
+                        <p>Ask study questions</p>
+                    </a>
+                    <a href="/code" class="action-card">
+                        <i class="fas fa-laptop-code"></i>
+                        <h3>💻 Code Playground</h3>
+                        <p>AI-guided coding practice</p>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Recent Activity -->
+            <section class="recent-activity">
+                <h2>Recent Activity</h2>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <i class="fas fa-file-upload"></i>
+                        <span>Uploaded DBMS notes.pdf</span>
+                        <small>2 mins ago</small>
+                    </div>
+                    <div class="activity-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Completed OS Unit 2</span>
+                        <small>1 hour ago</small>
+                    </div>
+                    <div class="activity-item">
+                        <i class="fas fa-bell"></i>
+                        <span>Reminder: CN exam tomorrow</span>
+                        <small>Just now</small>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
